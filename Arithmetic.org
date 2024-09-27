@@ -1,0 +1,220 @@
+#+TITLE: Arithmetic in R
+#+AUTHOR: Cristian Del Gobbo (pledged)
+#+STARTUP: overview hideblocks indent
+#+PROPERTY: header-args:R :session *R* :results output
+
+** Order of Opeartions
+   #+begin_src R
+     24 + 6/3 * 5 * 2**3 - 9
+   #+end_src
+
+   #+RESULTS:
+   : 95
+
+   #+begin_src R
+     10**2 + (60*3)/8 - 3
+
+   #+end_src
+
+   #+RESULTS:
+   : 119.5
+
+   #+begin_src R
+     (5**3 * (6-2))/(61-3+4)
+
+   #+end_src
+
+   #+RESULTS:
+   : 8.06451612903226
+
+   #+begin_src R
+     2**(2+1) - 4 + 64**((-2)**(2.25-1/4))
+
+   #+end_src
+
+   #+RESULTS:
+   : 16777220
+
+   #+begin_src R
+     ((0.44 * (1-0.44))/34)**(1/2)
+
+   #+end_src
+
+   #+RESULTS:
+   : 0.0851296588947084
+
+** Formula Translator
+   #+begin_src R
+     (-1)**(1/2)
+     sqrt(-1)
+   #+end_src
+
+   #+RESULTS:
+   : nil
+
+   - sqrt()
+   - log10()
+   - exp()
+   - pi
+
+   #+begin_src R
+     log10(1*10^7) 
+
+     log(1)
+
+     log(x=100, b=100)
+   #+end_src
+
+#+RESULTS:
+: 1
+
+#+begin_src R :results output
+x <- abs(rnorm(1000))
+y <- exp(x)
+plot(x, y)
+title("Exponential Function")
+#+end_src
+
+#+RESULTS:
+
+#+begin_src R :session *R* :results output
+x <- abs(rnorm(1000))
+y <- exp(x)
+plot(x, y)
+title("Exponential Function")
+plot(x, log10(y))
+title("Log Transformation")
+
+#+end_src
+
+#+RESULTS:
+
+#+begin_src R :session *R* :results output
+log10(10000000)
+
+log10(10000100)
+
+options(digits=5) # change digit formatting default
+log10(10000010)
+#+end_src
+
+#+RESULTS:
+: [1] 7
+: [1] 7.000004
+: [1] 7
+** Properties
+#+begin_src R
+x <- c(10, exp(1), 0)
+identical(exp(log(x)), log(exp(x)))
+exp(log(x))
+log(exp(x))
+all.equal(exp(log(x)), log(exp(x)))
+
+## Check what's going on?
+options(digits=16)
+identical(exp(log(x)), log(exp(x)))
+#+end_src
+
+#+RESULTS:
+: [1] FALSE
+: [1] 10.000000  2.718282  0.000000
+: [1] 10.000000  2.718282  0.000000
+: [1] TRUE
+: [1] FALSE
+
+#+begin_src R
+pi
+LETTERS
+letters
+class(LETTERS)
+class(letters)
+month.name
+month.abb
+options(digits=20)
+exp(1)
+is.vector(month.abb)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+[1] 3.141592653589793116
+ [1] "A" "B" "C" "D" "E" "F" "G" "H" "I" "J" "K" "L" "M" "N" "O" "P" "Q" "R" "S" "T" "U" "V" "W" "X"
+[25] "Y" "Z"
+ [1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s" "t" "u" "v" "w" "x"
+[25] "y" "z"
+[1] "character"
+[1] "character"
+ [1] "January"   "February"  "March"     "April"     "May"       "June"      "July"      "August"   
+ [9] "September" "October"   "November"  "December"
+ [1] "Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sep" "Oct" "Nov" "Dec"
+[1] 2.7182818284590450908
+[1] TRUE
+#+end_example
+
+#+begin_src R
+# e Notation
+1e+05
+
+# current value of digits
+options()$digits
+
+# Reset value 
+options(digits = 15)
+
+# Store object
+foo <- 100000000
+foo
+
+foo <- format(foo, scientific=FALSE)
+foo <- as.integer(foo)
+foo
+
+0.00000000000010
+
+exp(1000)
+
+(-1)/0
+
+sqrt(-1)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+[1] 1e+05
+[1] 15
+[1] 1e+08
+[1] 100000000
+[1] 1e-13
+[1] Inf
+[1] -Inf
+[1] NaN
+Warning message:
+In sqrt(-1) : NaNs produced
+#+end_example
+
+#+begin_src R
+Inf + 1
+Inf - 1
+Inf - Inf 
+Inf / Inf
+1/0
+-1/0
+NA
+NA + NA
+NaN
+NaN + NaN
+#+end_src
+
+#+RESULTS:
+#+begin_example
+[1] Inf
+[1] Inf
+[1] NaN
+[1] NaN
+[1] Inf
+[1] -Inf
+[1] NA
+[1] NA
+[1] NaN
+[1] NaN
+#+end_example
