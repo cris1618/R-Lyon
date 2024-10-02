@@ -218,3 +218,94 @@ NaN + NaN
 [1] NaN
 [1] NaN
 #+end_example
+
+#+begin_src R
+options(digits=10)
+exp(1)
+
+#+end_src
+
+#+RESULTS:
+: [1] 2.718281828
+
+#+begin_src R
+10000000
+options(scipen=9999)
+
+#+end_src
+
+#+RESULTS:
+: [1] 10000000
+
+#+begin_src R 
+class(NaN)
+class(Inf)
+class(NA)
+class(NULL)
+
+#+end_src
+
+#+RESULTS:
+: [1] "numeric"
+: [1] "numeric"
+: [1] "logical"
+: [1] "NULL"
+
+#+begin_src R :results output
+  10^309
+  10^308
+  sqrt(2)**2-2
+  identical(sqrt(2)**2, 2)
+  all.equal(sqrt(2)**2, 2)
+  is.finite(NA)
+  is.nan(NaN)
+  is.nan(NA)
+#+end_src
+
+#+RESULTS:
+: [1] Inf
+: [1] 100000000000000001097906362944045541740492309677311846336810682903157585404911491537163328978494688899061249669721172515611590283743140088328307009198146046031271664502933027185697489699588559043338384466165001178426897626212945177628091195786707458122783970171784415105291802893207873272974885715430223118336
+: [1] 0.0000000000000004440892
+: [1] FALSE
+: [1] TRUE
+: [1] FALSE
+: [1] TRUE
+: [1] FALSE
+
+** Logical values and operators
+#+begin_src R :results output
+  print(TRUE)
+  print(T)
+  T <- FALSE
+  print(T)
+  class(TRUE)
+  is.na(NA)
+#+end_src
+
+#+RESULTS:
+: [1] TRUE
+: [1] FALSE
+: [1] FALSE
+: [1] "logical"
+: [1] TRUE
+
+#+begin_src R :results output
+  1 != 1
+  (1==1) & (1==2)
+  (1==1) | (1!=1)
+
+#+end_src
+
+#+RESULTS:
+: [1] FALSE
+: [1] FALSE
+: [1] TRUE
+
+#+begin_src R 
+  (sqrt(2)^2) == 2
+  (1 == 2) | (1!=1)
+#+end_src
+
+#+RESULTS:
+: [1] FALSE
+: [1] FALSE
