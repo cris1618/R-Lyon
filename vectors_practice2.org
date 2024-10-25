@@ -1,0 +1,116 @@
+#+TITLE:Practice: Vectors in R
+#+AUTHOR: Cristian Del Gobbo
+#+SUBTITLE: Introduction to data science (DSC 105) Fall 2024
+#+STARTUP: overview hideblocks indent
+#+PROPERTY: header-args:R :session *R* :results output
+* README
+
+- Practice file for the lecture on "Vectors in R" ([[https://github.com/birkenkrahe/ds1/blob/piHome/org/5_vectors.org][GitHub]])
+- All content from "Vectors in R" is also available [[https://www.youtube.com/playlist?list=PL6SfZh1-kWXl3_YDc-8SS5EuG4h1aILHz][on YouTube]]
+- Create, execute and debug R code blocks as needed
+- Emacs + ESS + Org-mode and R must be installed
+- Upload the completed file as a class assignment ([[https://lyon.instructure.com/courses/568/assignments/2952][Canvas]])
+
+* DONE IDENTIFY YOURSELF
+
+  - Update the ~#+AUTHOR:~ information in the header
+  - Add ~(pledged)~ after your name
+  - Put your cursor on the headline of this section, and type ~S <LEFT>~
+    until you see ~DONE~ instead of ~TODO~ next to the title.
+  - Perform this last step each time you complete a section.
+  - When you're done, upload the completed file to Canvas
+  - Create R code blocks at will to answer all questions.
+  - We will review this content at the start of the next session.
+    
+* DONE Create and store a sequence
+
+1) Create a sequence of values from ~5~ to ~-11~ that progresses in steps
+   of ~0.3~.
+
+2) Store the sequence as an object ~seq_vec~ and print it.
+
+#+begin_src R
+  options(width=50)
+  seq(5, -11, by=-0.3) -> seq_vec
+  seq_vec
+#+end_src
+
+#+RESULTS:
+:  [1]   5.0   4.7   4.4   4.1   3.8   3.5   3.2
+:  [8]   2.9   2.6   2.3   2.0   1.7   1.4   1.1
+: [15]   0.8   0.5   0.2  -0.1  -0.4  -0.7  -1.0
+: [22]  -1.3  -1.6  -1.9  -2.2  -2.5  -2.8  -3.1
+: [29]  -3.4  -3.7  -4.0  -4.3  -4.6  -4.9  -5.2
+: [36]  -5.5  -5.8  -6.1  -6.4  -6.7  -7.0  -7.3
+: [43]  -7.6  -7.9  -8.2  -8.5  -8.8  -9.1  -9.4
+: [50]  -9.7 -10.0 -10.3 -10.6 -10.9
+
+* DONE Reverse sequence order
+
+Overwrite ~seq_vec~ from the last exercise, using the same sequence with
+the order reversed.
+
+#+begin_src R
+  seq_vec <- seq(-11, 5, by=0.3)
+  seq_vec
+#+end_src
+
+#+RESULTS:
+:  [1] -11.0 -10.7 -10.4 -10.1  -9.8  -9.5  -9.2
+:  [8]  -8.9  -8.6  -8.3  -8.0  -7.7  -7.4  -7.1
+: [15]  -6.8  -6.5  -6.2  -5.9  -5.6  -5.3  -5.0
+: [22]  -4.7  -4.4  -4.1  -3.8  -3.5  -3.2  -2.9
+: [29]  -2.6  -2.3  -2.0  -1.7  -1.4  -1.1  -0.8
+: [36]  -0.5  -0.2   0.1   0.4   0.7   1.0   1.3
+: [43]   1.6   1.9   2.2   2.5   2.8   3.1   3.4
+: [50]   3.7   4.0   4.3   4.6   4.9
+
+* DONE Create vector by repetition
+
+                    
+   1) Repeat the vector ~c(-1,3,-5,7,-9)~ twice, with each element repeated
+      ~10~ times
+   2) Store the result as ~rep_vec~.
+   3) Display the result sorted from largest to smallest.
+
+      #+begin_src R
+        vec <- c(-1, 3, -5, 7, -9)
+        rep(vec, 2, each=10) -> rep_vec
+        sort(rep_vec, decreasing=TRUE)
+      #+end_src
+
+   #+RESULTS:
+   :   [1]  7  7  7  7  7  7  7  7  7  7  7  7  7  7  7
+   :  [16]  7  7  7  7  7  3  3  3  3  3  3  3  3  3  3
+   :  [31]  3  3  3  3  3  3  3  3  3  3 -1 -1 -1 -1 -1
+   :  [46] -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+   :  [61] -5 -5 -5 -5 -5 -5 -5 -5 -5 -5 -5 -5 -5 -5 -5
+   :  [76] -5 -5 -5 -5 -5 -9 -9 -9 -9 -9 -9 -9 -9 -9 -9
+   :  [91] -9 -9 -9 -9 -9 -9 -9 -9 -9 -9
+
+* DONE Putting it all together, and measuring
+
+Create and store a vector that contains, in any configuration, the
+following:
+- A sequence of integers from ~6~ to ~12~ (inclusive)
+- A threefold repetition of the value ~5.3~
+- The number ~-3~
+- A sequence of nine values starting at ~102~ and ending at the
+  number that is the total length of the vector ~rep_vec~ created
+  earlier.
+- Confirm that the length of the vector created is ~20~
+  #+begin_src R                                        
+    big_vec <- c(seq(6,12, length.out=7), 
+                 rep(5.3, 3), 
+                 -3,
+                 seq(102, length(rep_vec), length.out=9))
+    big_vec
+    length(big_vec)
+   #+end_src
+
+   #+RESULTS:
+   :  [1]   6.00   7.00   8.00   9.00  10.00  11.00
+   :  [7]  12.00   5.30   5.30   5.30  -3.00 102.00
+   : [13] 101.75 101.50 101.25 101.00 100.75 100.50
+   : [19] 100.25 100.00
+   : [1] 20
