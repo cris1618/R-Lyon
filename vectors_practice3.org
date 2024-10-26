@@ -1,0 +1,390 @@
+#+TITLE:Practice: Vectors in R
+#+AUTHOR: Cristian Del Gobbo
+#+SUBTITLE: Introduction to data science (DSC 105) Fall 2024
+#+STARTUP: overview hideblocks indent
+#+PROPERTY: header-args:R :session *R* :results output
+* README
+
+- Practice file for the lecture on "Vectors in R" ([[https://github.com/birkenkrahe/ds1/blob/piHome/org/5_vectors.orghttps://github.com/birkenkrahe/ds1/blob/main/org/6_vectors.org][GitHub]])
+- All content from "Vectors in R" is also available [[https://www.youtube.com/playlist?list=PL6SfZh1-kWXl3_YDc-8SS5EuG4h1aILHz][on YouTube]]
+- Emacs + ESS + Org-mode and R must be installed
+- Upload the completed file as a class assignment to Canvas
+
+* DONE IDENTIFY YOURSELF
+
+  - Update the ~#+AUTHOR:~ information in the header
+  - Add ~(pledged)~ after your name
+  - Put your cursor on the headline of this section, and type ~S <LEFT>~
+    until you see ~DONE~ instead of ~TODO~ next to the title.
+  - Perform this last step each time you complete a section.
+    
+* DONE Create and store a sequence
+
+1) Create a sequence of values from ~5~ to ~-11~ that progresses in steps
+   of ~0.3~.
+
+   #+begin_src R
+   options(width=50)
+   seq(5, -11, by=-0.3)
+   #+end_src
+
+   #+RESULTS:
+   :  [1]   5.0   4.7   4.4   4.1   3.8   3.5   3.2
+   :  [8]   2.9   2.6   2.3   2.0   1.7   1.4   1.1
+   : [15]   0.8   0.5   0.2  -0.1  -0.4  -0.7  -1.0
+   : [22]  -1.3  -1.6  -1.9  -2.2  -2.5  -2.8  -3.1
+   : [29]  -3.4  -3.7  -4.0  -4.3  -4.6  -4.9  -5.2
+   : [36]  -5.5  -5.8  -6.1  -6.4  -6.7  -7.0  -7.3
+   : [43]  -7.6  -7.9  -8.2  -8.5  -8.8  -9.1  -9.4
+   : [50]  -9.7 -10.0 -10.3 -10.6 -10.9
+
+2) Store the sequence as an object ~seq_vec~ and print it.
+   #+begin_src R
+   seq(5, -11, by=-0.3) -> seq_vec
+   seq_vec
+   #+end_src
+
+   #+RESULTS:
+   :  [1]   5.0   4.7   4.4   4.1   3.8   3.5   3.2   2.9   2.6   2.3   2.0   1.7   1.4   1.1   0.8   0.5
+   : [17]   0.2  -0.1  -0.4  -0.7  -1.0  -1.3  -1.6  -1.9  -2.2  -2.5  -2.8  -3.1  -3.4  -3.7  -4.0  -4.3
+   : [33]  -4.6  -4.9  -5.2  -5.5  -5.8  -6.1  -6.4  -6.7  -7.0  -7.3  -7.6  -7.9  -8.2  -8.5  -8.8  -9.1
+   : [49]  -9.4  -9.7 -10.0 -10.3 -10.6 -10.9
+
+* DONE Reverse sequence order
+
+Overwrite ~seq_vec~ from the last exercise, using the same sequence with
+the order reversed. There are different solutions to this - find two:
+
+First solution:
+#+begin_src R
+  seq_vec <- seq(-11, 5, by=0.3)
+  seq_vec
+#+end_src
+
+#+RESULTS:
+:  [1] -11.0 -10.7 -10.4 -10.1  -9.8  -9.5  -9.2
+:  [8]  -8.9  -8.6  -8.3  -8.0  -7.7  -7.4  -7.1
+: [15]  -6.8  -6.5  -6.2  -5.9  -5.6  -5.3  -5.0
+: [22]  -4.7  -4.4  -4.1  -3.8  -3.5  -3.2  -2.9
+: [29]  -2.6  -2.3  -2.0  -1.7  -1.4  -1.1  -0.8
+: [36]  -0.5  -0.2   0.1   0.4   0.7   1.0   1.3
+: [43]   1.6   1.9   2.2   2.5   2.8   3.1   3.4
+: [50]   3.7   4.0   4.3   4.6   4.9
+
+Another solution:
+#+begin_src R
+                                          # Find number distance
+  options(digits=1)
+  len <- length(seq_vec)
+  seq_vec <- seq(-11, 5, length.out = len)
+  seq_vec
+#+end_src
+
+#+RESULTS:
+:  [1] -11.0 -10.7 -10.4 -10.1  -9.8  -9.5  -9.2
+:  [8]  -8.9  -8.6  -8.3  -8.0  -7.7  -7.4  -7.1
+: [15]  -6.8  -6.5  -6.2  -5.9  -5.6  -5.3  -5.0
+: [22]  -4.7  -4.4  -4.1  -3.8  -3.5  -3.2  -2.8
+: [29]  -2.5  -2.2  -1.9  -1.6  -1.3  -1.0  -0.7
+: [36]  -0.4  -0.1   0.2   0.5   0.8   1.1   1.4
+: [43]   1.7   2.0   2.3   2.6   2.9   3.2   3.5
+: [50]   3.8   4.1   4.4   4.7   5.0
+
+Another solution:
+#+begin_src R
+  options(width=50)
+  seq_vec <- rev(seq(5, -11, by=-0.3))
+  seq_vec
+#+end_src
+
+#+RESULTS:
+:  [1] -10.9 -10.6 -10.3 -10.0  -9.7  -9.4  -9.1
+:  [8]  -8.8  -8.5  -8.2  -7.9  -7.6  -7.3  -7.0
+: [15]  -6.7  -6.4  -6.1  -5.8  -5.5  -5.2  -4.9
+: [22]  -4.6  -4.3  -4.0  -3.7  -3.4  -3.1  -2.8
+: [29]  -2.5  -2.2  -1.9  -1.6  -1.3  -1.0  -0.7
+: [36]  -0.4  -0.1   0.2   0.5   0.8   1.1   1.4
+: [43]   1.7   2.0   2.3   2.6   2.9   3.2   3.5
+: [50]   3.8   4.1   4.4   4.7   5.0
+
+* DONE Create vector by repetition
+
+1) Repeat the vector ~c(-1,3,-5,7,-9)~ twice, with each element repeated
+   ~10~ times
+
+   #+begin_src R
+     rep(c(-1,3,-5,7,-9), 2, each=10)
+   #+end_src
+
+   #+RESULTS:
+   :   [1] -1 -1 -1 -1 -1 -1 -1 -1 -1 -1  3  3  3  3  3
+   :  [16]  3  3  3  3  3 -5 -5 -5 -5 -5 -5 -5 -5 -5 -5
+   :  [31]  7  7  7  7  7  7  7  7  7  7 -9 -9 -9 -9 -9
+   :  [46] -9 -9 -9 -9 -9 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+   :  [61]  3  3  3  3  3  3  3  3  3  3 -5 -5 -5 -5 -5
+   :  [76] -5 -5 -5 -5 -5  7  7  7  7  7  7  7  7  7  7
+   :  [91] -9 -9 -9 -9 -9 -9 -9 -9 -9 -9
+
+2) Store the result as ~rep_vec~ and print it.
+   #+begin_src R
+     rep(c(-1,3,-5,7,-9), 2, each=10) -> rep_vec
+     rep_vec
+   #+end_src
+
+   #+RESULTS:
+   :   [1] -1 -1 -1 -1 -1 -1 -1 -1 -1 -1  3  3  3  3  3  3  3  3  3  3 -5 -5 -5 -5 -5 -5 -5 -5 -5 -5  7  7
+   :  [33]  7  7  7  7  7  7  7  7 -9 -9 -9 -9 -9 -9 -9 -9 -9 -9 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1  3  3  3  3
+   :  [65]  3  3  3  3  3  3 -5 -5 -5 -5 -5 -5 -5 -5 -5 -5  7  7  7  7  7  7  7  7  7  7 -9 -9 -9 -9 -9 -9
+   :  [97] -9 -9 -9 -9
+
+3) Display the result so that the elements are displayed from largest
+   to smallest.
+
+   #+begin_src R
+     sort(rep_vec, decreasing=TRUE) -> sort_rep
+     sort_rep
+   #+end_src
+   
+   #+RESULTS:
+   :   [1]  7  7  7  7  7  7  7  7  7  7  7  7  7  7  7
+   :  [16]  7  7  7  7  7  3  3  3  3  3  3  3  3  3  3
+   :  [31]  3  3  3  3  3  3  3  3  3  3 -1 -1 -1 -1 -1
+   :  [46] -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+   :  [61] -5 -5 -5 -5 -5 -5 -5 -5 -5 -5 -5 -5 -5 -5 -5
+   :  [76] -5 -5 -5 -5 -5 -9 -9 -9 -9 -9 -9 -9 -9 -9 -9
+   :  [91] -9 -9 -9 -9 -9 -9 -9 -9 -9 -9
+
+4) Apply the function =rev= to =rep_vec= and compare the result: =rev=
+   reverses purely based on positional order without regard for the
+   signs.
+   
+   #+begin_src R
+     rev(rep_vec) -> rep_reversed
+     rep_reversed
+   #+end_src
+
+   #+RESULTS:
+   :   [1] -9 -9 -9 -9 -9 -9 -9 -9 -9 -9  7  7  7  7  7
+   :  [16]  7  7  7  7  7 -5 -5 -5 -5 -5 -5 -5 -5 -5 -5
+   :  [31]  3  3  3  3  3  3  3  3  3  3 -1 -1 -1 -1 -1
+   :  [46] -1 -1 -1 -1 -1 -9 -9 -9 -9 -9 -9 -9 -9 -9 -9
+   :  [61]  7  7  7  7  7  7  7  7  7  7 -5 -5 -5 -5 -5
+   :  [76] -5 -5 -5 -5 -5  3  3  3  3  3  3  3  3  3  3
+   :  [91] -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+
+5) The =rep= function also has a =length.out= parameter! It repeats the
+   target vector so that the total number of elements is
+   =length.out=. Repeat the vector =c(5,2)= ten times with =length.out= and
+   compare it with using the =times= parameter and the =each= parameter,
+   all set to the value 10.
+
+   #+begin_src R
+     rep(c(5,2), length.out=10) -> length_rep
+     length_rep
+     rep(c(5,2), times=10, each=10) -> te_rep
+     te_rep
+   #+end_src
+
+   #+RESULTS:
+   #+begin_example
+    [1] 5 2 5 2 5 2 5 2 5 2
+     [1] 5 5 5 5 5 5 5 5 5 5 2 2 2 2 2 2 2 2 2 2 5 5
+    [23] 5 5 5 5 5 5 5 5 2 2 2 2 2 2 2 2 2 2 5 5 5 5
+    [45] 5 5 5 5 5 5 2 2 2 2 2 2 2 2 2 2 5 5 5 5 5 5
+    [67] 5 5 5 5 2 2 2 2 2 2 2 2 2 2 5 5 5 5 5 5 5 5
+    [89] 5 5 2 2 2 2 2 2 2 2 2 2 5 5 5 5 5 5 5 5 5 5
+   [111] 2 2 2 2 2 2 2 2 2 2 5 5 5 5 5 5 5 5 5 5 2 2
+   [133] 2 2 2 2 2 2 2 2 5 5 5 5 5 5 5 5 5 5 2 2 2 2
+   [155] 2 2 2 2 2 2 5 5 5 5 5 5 5 5 5 5 2 2 2 2 2 2
+   [177] 2 2 2 2 5 5 5 5 5 5 5 5 5 5 2 2 2 2 2 2 2 2
+   [199] 2 2
+   #+end_example
+   
+* DONE Putting it all together, and measuring
+
+Create and store a vector that contains, in any configuration, the
+following:
+- A sequence of integers from ~6~ to ~12~ (inclusive)
+- A threefold repetition of the value ~5.3~
+- The number ~-3~
+- A sequence of nine values starting at ~102~ and ending at the
+  number that is the total length of the vector ~rep_vec~ created
+  earlier.
+- Confirm that the length of the vector created is ~20~
+
+  #+begin_src R
+    sp_vector <- c(seq(6,12,length.out=7), 
+                   rep(5.3, 3), 
+                   -3, 
+                   seq(102, length(rep_vec), length.out=9))
+    sp_vector
+    length(sp_vector)
+  #+end_src
+
+  #+RESULTS:
+  :  [1]   6.00   7.00   8.00   9.00  10.00  11.00
+  :  [7]  12.00   5.30   5.30   5.30  -3.00 102.00
+  : [13] 101.75 101.50 101.25 101.00 100.75 100.50
+  : [19] 100.25 100.00
+  : [1] 20
+
+* DONE Character vectors
+
+         1) Define a character vector that contains the following names, in
+            this order: Jim, Jane, Joe, and Jeff.
+            #+begin_src R
+              c("Jim", "Jane", "Joe", "Jeff")
+            #+end_src
+
+         2) Store the vector in the R object =char_vec=.
+            #+begin_src R
+              c("Jim", "Jane", "Joe", "Jeff") -> char_vec
+            #+end_src
+
+            #+RESULTS:
+
+         4) Sort =char_vec= in two different ways: With =sort= and with =rev=.
+            #+begin_src R
+              sort(char_vec) -> sort_char
+              sort_char
+              rev(char_vec) -> rev_char
+              rev_char
+            #+end_src   
+
+            #+RESULTS:
+            : [1] "Jane" "Jeff" "Jim"  "Joe"
+            : [1] "Jeff" "Joe"  "Jane" "Jim"
+
+* DONE Create and store a =data.frame= using the existing vectors
+
+1) Combine the =seq_vec=, =rep_vec=, and =char_vec= vectors you created
+   earlier into a single =data.frame= called =my_data_frame=.
+
+2) One difficulty is that all of these vectors have different length,
+   and a =data.frame= is a rectangular structure. Display their lengths:
+   #+begin_src R
+     length(seq_vec) -> seq_len
+     seq_len
+     length(rep_vec) -> rep_len
+     rep_len
+     length(char_vec) -> char_len
+     char_len
+   #+end_src
+
+   #+RESULTS:
+   : [1] 54
+   : [1] 100
+   : [1] 4
+
+3) Create the data frame, and assign the following column names:
+
+   - =Numbers=: Contains the sequence of values stored in =seq_vec=.
+
+   - =Repeats=: Contains the values stored in =rep_vec=. Since =rep_vec= is
+     different length than =seq_vec=, contract it by repeating it to
+     match the length of =seq_vec=.
+
+   - =Names=: Contains the names stored in =char_vec=. Since =char_vec= is
+     shorter than the other vectors, expand it by repeating it enough
+     times to match the length of =seq_vec=.
+
+     When you're done, show the first 6 rows of =my_data_frame=:
+
+   #+begin_src R
+     my_data_frame <- data.frame(Numbers=seq_vec,
+                                 Repeats=rep(rep_vec, length.out=length(seq_vec)),
+                                 Names=rep(sort(char_vec), length.out=length(seq_vec)))
+     my_data_frame |> head(6)
+   #+end_src
+
+   #+RESULTS:
+   :   Numbers Repeats Names
+   : 1     5.0      -1  Jane
+   : 2     4.7      -1  Jeff
+   : 3     4.4      -1   Jim
+   : 4     4.1      -1   Joe
+   : 5     3.8      -1  Jane
+   : 6     3.5      -1  Jeff
+
+2) Calculate and display summary statistics for the =Numbers= and
+   =Repeats= columns in =my_data_frame= only.
+
+   #+begin_src R
+     summary(my_data_frame[,1:2])
+   #+end_src
+
+   #+RESULTS:
+   :     Numbers           Repeats  
+   :  Min.   :-10.900   Min.   :-9  
+   :  1st Qu.: -6.925   1st Qu.:-5  
+   :  Median : -2.950   Median :-1  
+   :  Mean   : -2.950   Mean   :-1  
+   :  3rd Qu.:  1.025   3rd Qu.: 3  
+   :  Max.   :  5.000   Max.   : 7
+
+3) Filter the =data.frame= to show only rows where =Numbers= is positive
+   and =Repeats= is less than 5.
+
+   #+begin_src R
+     ((my_data_frame$Numbers > 0) & (my_data_frame$Repeats < 5)) -> idx
+     my_data_frame[idx,]
+   #+end_src
+
+   #+RESULTS:
+   #+begin_example
+      Numbers Repeats Names
+   1      5.0      -1  Jane
+   2      4.7      -1  Jeff
+   3      4.4      -1   Jim
+   4      4.1      -1   Joe
+   5      3.8      -1  Jane
+   6      3.5      -1  Jeff
+   7      3.2      -1   Jim
+   8      2.9      -1   Joe
+   9      2.6      -1  Jane
+   10     2.3      -1  Jeff
+   11     2.0       3   Jim
+   12     1.7       3   Joe
+   13     1.4       3  Jane
+   14     1.1       3  Jeff
+   15     0.8       3   Jim
+   16     0.5       3   Joe
+   17     0.2       3  Jane
+   #+end_example
+
+4) Sort the =data.frame= by the =Names= column in ascending order and
+   display the first 10 rows.
+
+   /Tip:/ =sort= sorts the values and returns the sorted values, but =order=
+   sorts the values and returns the corresponding indices:
+   #+begin_src R
+     sort(c("Zane", "Peter", "Jim"))
+     order(c("Zane", "Peter", "Jim"))
+   #+end_src
+
+   #+RESULTS:
+   : [1] "Jim"   "Peter" "Zane"
+   : [1] 3 2 1
+
+   Solution:
+   #+begin_src R
+   my_data_frame[order(my_data_frame$Names),] -> sorted_df
+   head(sorted_df,10)
+   #+end_src
+
+   #+RESULTS:
+   #+begin_example
+      Numbers Repeats Names
+   1      5.0      -1  Jane
+   5      3.8      -1  Jane
+   9      2.6      -1  Jane
+   13     1.4       3  Jane
+   17     0.2       3  Jane
+   21    -1.0      -5  Jane
+   25    -2.2      -5  Jane
+   29    -3.4      -5  Jane
+   33    -4.6       7  Jane
+   37    -5.8       7  Jane
+   #+end_example
+
+
