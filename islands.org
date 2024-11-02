@@ -1,0 +1,182 @@
+#+TITLE: SUBSETTING PRACTICE WITH ISLANDS
+#+AUTHOR: Cristian Del Gobbo (pledged)
+#+subtitle: DSC 105 Intro to data science, Lyon College, Fall'24
+#+startup: overview hideblocks indent entitiespretty: 
+#+property: header-args:R :session *R* :results output :exports both:
+#+options: toc:nil num:nil ^:nil: 
+* Readme
+
+This exercise is very similar to the practice on the ~Nile~ data
+set. Here, we're using another built-in data set, ~islands~. Instead of
+~time~, you need to use ~names~ to analyze the content of ~islands~, and
+instead of a line plot, you will draw a dot plot.
+
+* 10 Problems
+
+Find out what ~islands~ contains and what its structure is. Take a look
+at ~example(islands)~, too. Submit the completed file in Canvas for
+bonus points.
+
+#+begin_src R
+data(islands)
+str(islands)
+islands
+#+end_src
+
+#+RESULTS:
+#+begin_example
+ Named num [1:48] 11506 5500 16988 2968 16 ...
+ - attr(*, "names")= chr [1:48] "Africa" "Antarctica" "Asia" "Australia" ...
+          Africa       Antarctica             Asia        Australia     Axel Heiberg           Baffin 
+           11506             5500            16988             2968               16              184 
+           Banks           Borneo          Britain          Celebes            Celon             Cuba 
+              23              280               84               73               25               43 
+           Devon        Ellesmere           Europe        Greenland           Hainan       Hispaniola 
+              21               82             3745              840               13               30 
+        Hokkaido           Honshu          Iceland          Ireland             Java           Kyushu 
+              30               89               40               33               49               14 
+           Luzon       Madagascar         Melville         Mindanao         Moluccas      New Britain 
+              42              227               16               36               29               15 
+      New Guinea  New Zealand (N)  New Zealand (S)     Newfoundland    North America    Novaya Zemlya 
+             306               44               58               43             9390               32 
+ Prince of Wales         Sakhalin    South America      Southampton      Spitsbergen          Sumatra 
+              13               29             6795               16               15              183 
+          Taiwan         Tasmania Tierra del Fuego            Timor        Vancouver         Victoria 
+              14               26               19               13               12               82
+#+end_example
+
+1) How many elements does the vector ~islands~ have?
+   #+begin_src R
+   length(islands)
+   #+end_src
+
+   #+RESULTS:
+   : [1] 48
+
+2) Retrieve the third to fourth, the twelfth to thirty-fifth, and the
+   48th element of ~islands~ with one command, and check that you
+   retrieved 28 elements altogether (with another command)
+   #+begin_src R
+   islands[c(3:4, 12:36, 48)] -> sub
+   length(sub)
+   #+end_src
+
+   #+RESULTS:
+   : [1] 28
+
+3) Create a vector ~islands_unnamed~ from ~islands~ that is not named and
+   show its structure. Tip: to remove the ~names~ of a vector, assign
+   ~NULL~ to it.
+   #+begin_src R
+   islands_unnamed <- islands
+   names(islands_unnamed) <- NULL
+   str(islands_unnamed)
+   #+end_src
+
+   #+RESULTS:
+   :  num [1:48] 11506 5500 16988 2968 16 ...
+
+4) Print the value of ~islands~ that belongs to the ~names(islands)~
+   element ~"Iceland"~- which data science question could this answer?
+
+   #+begin_src R
+   islands[names(islands) == "Iceland"]
+   #+end_src
+
+   #+RESULTS:
+   : Iceland 
+   :      40
+
+   #+begin_quote
+   Answer: What is the size of Iceland?
+   #+end_quote
+
+5) Which element of ~islands~ corresponds to the greatest area? (Put
+   differently: what is the greatest landmass on Earth?)
+
+   #+begin_src R
+   which(islands == max(islands)) -> idx
+   islands[idx]
+   #+end_src
+
+   #+RESULTS:
+   :  Asia 
+   : 16988
+
+6) What is the index of the next-to-last element of ~islands~? Use ~which~
+   to answer this question and save the result as ~index~.
+
+   #+begin_src R
+   which(1:length(islands) == length(islands)-1) -> idx2
+   idx2
+   #+end_src
+
+   #+RESULTS:
+   : [1] 47
+
+7) Check your answer to the last question by finding the value of
+   ~islands~ that belongs to ~index~.
+   #+begin_src R
+   islands[idx2]
+   #+end_src
+
+   #+RESULTS:
+   : Vancouver 
+   :        12
+
+8) How many values of ~islands~ are larger than the next-to-last value
+   of ~islands~?
+   #+begin_src R
+   sum(islands > islands[idx2])
+   #+end_src
+
+   #+RESULTS:
+   : [1] 47
+
+9) What is the landmass of all areas listed in ~islands~? Output: ="Total
+   landmass: 60131 thousands of square miles."=
+   #+begin_src R
+   sum(islands)
+   #+end_src
+
+   #+RESULTS:
+   : [1] 60131
+
+10) Make a dot plot of all entries in the data set ~islands~ using the
+    ~dotchart~ function. As its only argument, use the
+    ~log10~-transformed, ordered data set ~areas <- log10(sort(islands))~.
+
+    Add a line for the median of this data set, ~median(areas)~ and add
+    it to the plot with ~abline(v=median(areas)~.
+
+    #+begin_src R :session *R* :results output graphics file :file islands.png :exports both                                    
+      areas <- log10(sort(islands))                                             
+      dotchart(areas)                                   
+      abline(v = median(areas))
+    #+end_src
+
+    #+RESULTS:
+    [[file:islands.png]]
+
+    Tip: You can change the appearance of lines with the parameters
+    ~col~, ~lty~, ~lwd~. E.g. ~col="red, lty=2, lwd=2~ for a red, dashed,
+    thick line.
+
+11) Customized with line type, line width, title, labels and color:
+
+    #+begin_src R :session *R* :results graphics output file :file islands1.png :exports both
+      areas <- log10(sort(islands))                                             
+      dotchart(areas, 
+               main="Landmass per island", 
+               xlab="log(Landmass)",
+               ylab="Island")                                   
+      abline(v = median(areas),
+               col="purple",
+               lty = 2,
+               lwd = 2)
+    #+end_src
+
+    #+RESULTS:
+    [[file:islands1.png]]
+
+
