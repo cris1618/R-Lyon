@@ -35,7 +35,7 @@
                                                                                                                                 #+end_src
 
                                                                                                                                 #+RESULTS:
-                                                                                                                                :  [1] "C" "C" "B" "A" "B" "B" "A" "C" "B" "C"
+                                                                                                                                :  [1] "B" "B" "A" "B" "C" "A" "C" "C" "A" "C"
 
                                                                                                                               - Create a data frame =df= from the number =1=, the vector =1:10=, and =fac=.
                                                                                                                                 #+name: dataframe_unnamed
@@ -48,7 +48,7 @@
                                                                                                                                 : 'data.frame':	10 obs. of  3 variables:
                                                                                                                                 :  $ X1   : num  1 1 1 1 1 1 1 1 1 1
                                                                                                                                 :  $ X1.10: int  1 2 3 4 5 6 7 8 9 10
-                                                                                                                                :  $ fac  : chr  "C" "C" "B" "A" ...
+                                                                                                                                :  $ fac  : chr  "B" "B" "A" "B" ...
 
                                                                                                                               - Create a data frame =df2= with the same content but name the first
                                                                                                                                 column =x= and the second column =y=:
@@ -62,7 +62,7 @@
                                                                                                                                 : 'data.frame':	10 obs. of  3 variables:
                                                                                                                                 :  $ x  : num  1 1 1 1 1 1 1 1 1 1
                                                                                                                                 :  $ y  : int  1 2 3 4 5 6 7 8 9 10
-                                                                                                                                :  $ fac: chr  "C" "C" "B" "A" ...
+                                                                                                                                :  $ fac: chr  "B" "B" "A" "B" ...
 
                                                                                                                               - More information: check out ~example(data.frame)~ (on the R console).
 
@@ -96,10 +96,10 @@
   : 'data.frame':	10 obs. of  6 variables:
   :  $ X1   : num  1 1 1 1 1 1 1 1 1 1
   :  $ X1.10: int  1 2 3 4 5 6 7 8 9 10
-  :  $ fac  : chr  "C" "C" "B" "A" ...
+  :  $ fac  : chr  "B" "B" "A" "B" ...
   :  $ x    : num  1 1 1 1 1 1 1 1 1 1
   :  $ y    : int  1 2 3 4 5 6 7 8 9 10
-  :  $ fac.1: chr  "C" "C" "B" "A" ...
+  :  $ fac.1: chr  "B" "B" "A" "B" ...
 
 ** Practice
 
@@ -109,8 +109,8 @@ Hints:
 - Define vectors with ~c()~
 - Create data frame with ~data.frame()~
 - You can rename columns with ~colnames()~
-- You can auto-convert ~character~ to ~factor~
-
+- You can auto-convert ~character~ to ~factor
+~
 #+begin_src R :session :results output
   ## define vectors
   c(10,20,30,40) -> ID
@@ -146,8 +146,56 @@ Hints:
   5) Select rows 2 to 3, and columns 1 and 4 using ~[]~ and ~$~
 
   #+begin_src R
-
+    ls()
+    str(df3)
   #+end_src
+
+  #+RESULTS:
+  :  [1] "df"          "df2"         "df3"         "Distance"    "fac"         "ID"         
+  :  [7] "items"       "L3"          "price"       "Speed"       "store"       "ToothGrowth"
+  : 'data.frame':	4 obs. of  4 variables:
+  :  $ ID   : num  10 20 30 40
+  :  $ items: Factor w/ 4 levels "book","pen","pencil_case",..: 1 2 4 3
+  :  $ store: logi  TRUE FALSE TRUE FALSE
+  :  $ price: num  2.5 8 10 7
+
+#+begin_src R
+  df3[c(1,2),]
+  df3[,1]
+  df3$items
+
+  df3[3,2]
+  df3$items[3]
+
+  df3[1:3,c(3,4)]
+
+  df3[2:3, c(1,4)]
+  df3[2:3, c("ID", "price")]
+#+end_src
+
+#+RESULTS:
+#+begin_example
+  ID items store price
+1 10  book  TRUE   2.5
+2 20   pen FALSE   8.0
+[1] 10 20 30 40
+[1] book        pen         textbook    pencil_case
+Levels: book pen pencil_case textbook
+[1] textbook
+Levels: book pen pencil_case textbook
+[1] textbook
+Levels: book pen pencil_case textbook
+  store price
+1  TRUE   2.5
+2 FALSE   8.0
+3  TRUE  10.0
+  ID price
+2 20     8
+3 30    10
+  ID price
+2 20     8
+3 30    10
+#+end_example
 
 * Select indices and values using ~which~, ~names~, ~%in%~
 
@@ -161,9 +209,25 @@ For the last question, the format of the ~%in%~ matching function to
 find a string is: ~string %in% vector~
 
 #+begin_src R
+  colnames(df3)
+  which(colnames(df3) == "price")
 
 
+  which(df3$items == "textbook") -> idx
+  idx
+
+  df3$items[idx]
+
+  "pencil_case" %in% df3$items
 #+end_src
+
+#+RESULTS:
+: [1] "ID"    "items" "store" "price"
+: [1] 4
+: [1] 3
+: [1] textbook
+: Levels: book pen pencil_case textbook
+: [1] TRUE
 
 * Select subsets using the ~subset~ function
 
@@ -173,34 +237,89 @@ Using ~subset~,
 3) Select all items cheaper than $11 and in stock
 
    #+begin_src R
+     str(airquality)
+     subset(airquality, Temp>80, select=c(Ozone, Temp)) |> head(4)
 
+     subset(df3, ID>20, select="ID")
+     df3$ID[ID>20]
+
+     subset(df3, (price<11) & (store == TRUE))
    #+end_src
+
+   #+RESULTS:
+   #+begin_example
+   'data.frame':	153 obs. of  6 variables:
+    $ Ozone  : int  41 36 12 18 NA 28 23 19 8 NA ...
+    $ Solar.R: int  190 118 149 313 NA NA 299 99 19 194 ...
+    $ Wind   : num  7.4 8 12.6 11.5 14.3 14.9 8.6 13.8 20.1 8.6 ...
+    $ Temp   : int  67 72 74 62 56 66 65 59 61 69 ...
+    $ Month  : int  5 5 5 5 5 5 5 5 5 5 ...
+    $ Day    : int  1 2 3 4 5 6 7 8 9 10 ...
+      Ozone Temp
+   29    45   81
+   35    NA   84
+   36    NA   85
+   38    29   82
+     ID
+   3 30
+   4 40
+   [1] 30 40
+     ID    items store price
+   1 10     book  TRUE   2.5
+   3 30 textbook  TRUE  10.0
+   #+end_example
 
 * Some useful functions
 
 - ~dim~ gives you the data frame dimensions
-  #+begin_src
-
+  #+begin_src R
+  dim(df3)
   #+end_src
+
+  #+RESULTS:
+  : [1] 4 4
+
 - ~nrow~ gives you the number of rows
-  #+begin_src
-
+  #+begin_src R
+  nrow(df3)
   #+end_src
+
+  #+RESULTS:
+  : [1] 4
+
 - ~ncol~ gives you the number of columns
-  #+begin_src
-
+  #+begin_src R
+    ncol(df3)
   #+end_src
+
+  #+RESULTS:
+  : [1] 4
+
 - ~head(x=,N)~ gives you the first ~N~ rows
-  #+begin_src
-
+  #+begin_src R
+    head(df3, 3)
   #+end_src
+
+  #+RESULTS:
+  :   ID    items store price
+  : 1 10     book  TRUE   2.5
+  : 2 20      pen FALSE   8.0
+  : 3 30 textbook  TRUE  10.0
+
 - ~order~ gives you the indices of an ordered vector
-  #+begin_src
-
+  #+begin_src R
+    order(df3$items)
+    sort(df3$items)
   #+end_src
+
+  #+RESULTS:
+  : [1] 1 2 4 3
+  : [1] book        pen         pencil_case textbook   
+  : Levels: book pen pencil_case textbook
+
 - ~subset~ gives you a subset of any data structure
   #+begin_src
-
+  
   #+end_src
 
 * Trying to create a non-rectangular data frame
