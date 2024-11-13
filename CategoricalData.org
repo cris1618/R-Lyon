@@ -1,0 +1,102 @@
+#+TITLE: Categorical Data
+#+AUTHOR: Cristian Del Gobbo
+#+startup: hideblocks indent overview inlineimages entitiespretty
+#+PROPERTY: header-args:R :results output :session *R* :exports both :noweb yes
+#+options: toc:1
+
+* Data types and Factors
+#+begin_src R
+  data(airquality)
+  str(airquality)
+#+end_src
+
+#+RESULTS:
+: 'data.frame':	153 obs. of  6 variables:
+:  $ Ozone  : int  41 36 12 18 NA 28 23 19 8 NA ...
+:  $ Solar.R: int  190 118 149 313 NA NA 299 99 19 194 ...
+:  $ Wind   : num  7.4 8 12.6 11.5 14.3 14.9 8.6 13.8 20.1 8.6 ...
+:  $ Temp   : int  67 72 74 62 56 66 65 59 61 69 ...
+:  $ Month  : int  5 5 5 5 5 5 5 5 5 5 ...
+:  $ Day    : int  1 2 3 4 5 6 7 8 9 10 ...
+
+#+begin_src R
+  data(mtcars)
+  str(mtcars)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+'data.frame':	32 obs. of  11 variables:
+ $ mpg : num  21 21 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 ...
+ $ cyl : num  6 6 4 6 8 6 8 4 4 6 ...
+ $ disp: num  160 160 108 258 360 ...
+ $ hp  : num  110 110 93 110 175 105 245 62 95 123 ...
+ $ drat: num  3.9 3.9 3.85 3.08 3.15 2.76 3.21 3.69 3.92 3.92 ...
+ $ wt  : num  2.62 2.88 2.32 3.21 3.44 ...
+ $ qsec: num  16.5 17 18.6 19.4 17 ...
+ $ vs  : num  0 0 1 1 0 1 0 1 1 1 ...
+ $ am  : num  1 1 1 0 0 0 0 0 0 0 ...
+ $ gear: num  4 4 4 3 3 3 3 4 4 4 ...
+ $ carb: num  4 4 1 1 2 1 4 2 2 4 ...
+#+end_example
+
+- Using =Unique=:
+#+begin_src R
+  unique(mtcars$cyl) # Cyl is numeric, could be a factor
+#+end_src
+
+#+RESULTS:
+: [1] 6 4 8
+
+#+begin_src R
+  data(ToothGrowth)
+  ToothGrowth$supp |> unique() # Already a factor
+#+end_src
+
+#+RESULTS:
+: [1] VC OJ
+: Levels: OJ VC
+
+- Levels of a factor
+#+begin_src R
+  cyl <- factor(mtcars$cyl) 
+  vs <- factor(mtcars$vs)
+  am <- factor(mtcars$am)
+  data.frame(cyl, vs, am) -> mtcars_f
+  str(mtcars_f)
+#+end_src
+
+#+RESULTS:
+: 'data.frame':	32 obs. of  3 variables:
+:  $ cyl: Factor w/ 3 levels "4","6","8": 2 2 1 2 3 2 3 1 1 2 ...
+:  $ vs : Factor w/ 2 levels "0","1": 1 1 2 2 1 2 1 2 2 2 ...
+:  $ am : Factor w/ 2 levels "0","1": 2 2 2 1 1 1 1 1 1 1 ...
+* Importance of Factors
+#+begin_src R
+  blood_data <- data.frame(
+    name = c("Alice", "Bob", "Carol", "David"),
+    blood_type = c("A", "B", "AB", "O")
+  )
+
+str(blood_data)
+#+end_src
+
+#+RESULTS:
+: 'data.frame':	4 obs. of  2 variables:
+:  $ name      : chr  "Alice" "Bob" "Carol" "David"
+:  $ blood_type: chr  "A" "B" "AB" "O"
+
+#+begin_src R
+  as.factor(blood_data$blood_type) -> type
+#+end_src
+
+#+RESULTS:
+
+#+begin_src R
+  table(type) # Contingency table
+#+end_src
+
+#+RESULTS:
+: type
+:  A AB  B  O 
+:  1  1  1  1
