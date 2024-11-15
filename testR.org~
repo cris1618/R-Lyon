@@ -1,0 +1,11 @@
+
+* Testing R
+
+  #+begin_src R
+
+str(mtcars)
+plot(x = mtacars$wt, y = mtacars$pmg)
+
+  #+end_src
+
+  #+RESULTS:

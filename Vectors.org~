@@ -1,0 +1,4 @@
+#+TITLE: Vectors in R
+#+AUTHOR: Cristian Del Gobbo (pledged)
+#+STARTUP: overview hideblocks indent
+#+PROPERTY: header-args:R :session *R* :results output

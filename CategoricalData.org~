@@ -1,0 +1,10 @@
+#+TITLE: Categorical Data
+#+AUTHOR: Cristian Del Gobbo
+#+startup: hideblocks indent overview inlineimages entitiespretty
+#+PROPERTY: header-args:R :results output :session *R* :exports both :noweb yes
+#+options: toc:1
+
+* 
+#+begin_src 
+
+#+end_src

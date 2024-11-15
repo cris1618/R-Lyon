@@ -1,0 +1,104 @@
+#+TITLE: Arithmetic in R
+#+AUTHOR: Cristian Del Gobbo (pledged)
+#+STARTUP: overview hideblocks indent
+#+PROPERTY: header-args:R :session *R* :results output
+
+** Order of Opeartions
+   #+begin_src R
+     24 + 6/3 * 5 * 2**3 - 9
+   #+end_src
+
+   #+RESULTS:
+   : 95
+
+   #+begin_src R
+     10**2 + (60*3)/8 - 3
+
+   #+end_src
+
+   #+RESULTS:
+   : 119.5
+
+   #+begin_src R
+     (5**3 * (6-2))/(61-3+4)
+
+   #+end_src
+
+   #+RESULTS:
+   : 8.06451612903226
+
+   #+begin_src R
+     2**(2+1) - 4 + 64**((-2)**(2.25-1/4))
+
+   #+end_src
+
+   #+RESULTS:
+   : 16777220
+
+   #+begin_src R
+     ((0.44 * (1-0.44))/34)**(1/2)
+
+   #+end_src
+
+   #+RESULTS:
+   : 0.0851296588947084
+
+** Formula Translator
+   #+begin_src R
+     (-1)**(1/2)
+     sqrt(-1)
+   #+end_src
+
+   #+RESULTS:
+   : nil
+
+   - sqrt()
+   - log10()
+   - exp()
+   - pi
+
+   #+begin_src R
+     log10(1*10^7) 
+
+     log(1)
+
+     log(x=100, b=100)
+   #+end_src
+
+#+RESULTS:
+: 1
+
+#+begin_src R :results output
+x <- abs(rnorm(1000))
+y <- exp(x)
+plot(x, y)
+title("Exponential Function")
+#+end_src
+
+#+RESULTS:
+
+#+begin_src R :session *R* :results output
+x <- abs(rnorm(1000))
+y <- exp(x)
+plot(x, y)
+title("Exponential Function")
+plot(x, log10(y))
+title("Log Transformation")
+
+#+end_src
+
+#+RESULTS:
+
+#+begin_src R :session *R* :results output
+log10(10000000)
+
+log10(10000100)
+
+options(digits=5) # change digit formatting default
+log10(10000010)
+#+end_src
+
+#+RESULTS:
+: [1] 7
+: [1] 7.000004
+: [1] 7

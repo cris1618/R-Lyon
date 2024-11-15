@@ -1,0 +1,118 @@
+#+TITLE: Vectors in R
+#+AUTHOR: Cristian Del Gobbo (pledged)
+#+STARTUP: overview hideblocks indent
+#+PROPERTY: header-args:R :session *R* :results output
+
+* Assigning objects
+  #+begin_src R :results output
+    options(digits=2)
+    foo <- 3^2 * 4^(1/8)
+    foo <- foo / 2.33
+    foo
+
+    bar <- -8.2e-13
+    bar
+
+    format(bar, scientific=FALSE) -> barf
+    class(barf)
+    barf |> as.numeric() #pipe not overwrite by default
+    as.numeric(barf) -> barf
+    is.numeric(barf)
+
+    format(foo*barf, scientific=FALSE)
+    rm(list=ls())
+    ls()
+  #+end_src
+
+  #+RESULTS:
+  : [1] 4.6
+  : [1] -8.2e-13
+  : [1] "character"
+  : [1] -8.2e-13
+  : [1] TRUE
+  : [1] "-0.0000000000038"
+  : character(0)
+
+* Vectors
+  #+begin_src R :results output
+    (s_heights <- c(1.80, 2.00, 1.75))
+    (s_names <- c("Gavin", "Branden", "Donna"))
+    (s_male <- c(TRUE, TRUE, FALSE))
+
+    class(s_heights)
+    class(s_names)
+    class(s_male)
+
+    s_heights |> class()
+    s_names |> class()
+    s_male |> class()
+  #+end_src
+
+  #+RESULTS:
+  : [1] 1.80 2.00 1.75
+  : [1] "Gavin"   "Branden" "Donna"  
+  : [1]  TRUE  TRUE FALSE
+  : [1] "numeric"
+  : [1] "character"
+  : [1] "logical"
+  : [1] "numeric"
+  : [1] "character"
+  : [1] "logical"
+
+  #+begin_src R :results output
+    myvec <- c(1,3,4,4)
+    myvec
+    class(myvec)
+    is.vector(myvec)
+    as.character(myvec)
+
+    options(digits=2)
+    foo <- 32.1
+    myvec2 <- c(3, -3, 3.45, 1e+03, 64^0.5, 2+(3-1.1)/9.44, foo)
+    myvec2
+
+    myvec3 <- c(myvec, myvec2)
+    myvec3
+
+    myvec4 <- c(myvec2, myvec)
+    myvec4
+
+    # Missing values
+    specvec <- c(NA, NaN)
+    class(specvec)
+
+    is.na(specvec)
+    is.nan(specvec)
+    
+    #Infinity
+    specvec2 <- c(specvec, Inf, -Inf)
+    specvec2
+
+    is.finite(specvec2)
+    is.infinite(specvec2)
+    class(specvec2)
+#+end_src
+
+  #+RESULTS:
+  #+begin_example
+  [1] 1 3 4 4
+  [1] "numeric"
+  [1] TRUE
+  [1] "1" "3" "4" "4"
+  [1]    3.0   -3.0    3.5 1000.0    8.0    2.2   32.1
+   [1]    1.0    3.0    4.0    4.0    3.0   -3.0    3.5 1000.0    8.0    2.2
+  [11]   32.1
+   [1]    3.0   -3.0    3.5 1000.0    8.0    2.2   32.1    1.0    3.0    4.0
+  [11]    4.0
+  [1] "numeric"
+  [1] TRUE TRUE
+  [1] FALSE  TRUE
+  [1]   NA  NaN  Inf -Inf
+  [1] FALSE FALSE FALSE FALSE
+  [1] FALSE FALSE  TRUE  TRUE
+  [1] "numeric"
+  #+end_example
+
+
+  
+  

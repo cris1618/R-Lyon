@@ -1,0 +1,17 @@
+#+begin_src R :results output
+temp <- c(76, 75, 77, 79, 81)
+week <- c("mon", "tue", "wed", "thu", "fri")
+names(temp) <- week
+mean(temp[temp<=80])
+temp2 <- c(76, 75, 77, 79, 81)
+temp2 <- matrix(temp2, nrow=1, ncol=5)
+colnames(temp2) <- week
+tempm_2 <- rbind(temp2, NA)
+x <- tempm_2[1,]
+mean(x[x>80])
+
+#+end_src
+
+#+RESULTS:
+: [1] 76.75
+: [1] 81
