@@ -8,28 +8,73 @@
 
 - Create a list ~foo~ and print it, then print its structure:
   #+begin_src R
-
+    list(1, c("a", "b", "c"), list(letters[1:3], 3.14)) -> foo
+    foo
   #+end_src
+
+  #+RESULTS:
+  #+begin_example
+  [[1]]
+  [1] 1
+
+  [[2]]
+  [1] "a" "b" "c"
+
+  [[3]]
+  [[3]][[1]]
+  [1] "a" "b" "c"
+
+  [[3]][[2]]
+  [1] 3.14
+  #+end_example
 
 - How long is ~foo~?
   #+begin_src R
+    length(foo)
+  #+end_src
 
-#+end_src
+#+RESULTS:
+: [1] 3
 
 - Show its structure:
   #+begin_src R
-
+str(foo)
 #+end_src
+
+#+RESULTS:
+: List of 3
+:  $ : num 1
+:  $ : chr [1:3] "a" "b" "c"
+:  $ :List of 2
+:   ..$ : chr [1:3] "a" "b" "c"
+:   ..$ : num 3.14
+
 
 - What R object class does ~foo~ have, and what object classes do its
   elements have?
   #+begin_src R
-
+    class(foo)
     ## loop over the list using an `apply` function
-
+    lapply(foo, class) # Output is a list
     ## loop over the list using `for`
-
+    for(i in foo) print(class(i))
   #+end_src
+
+  #+RESULTS:
+  #+begin_example
+  [1] "list"
+  [[1]]
+  [1] "numeric"
+
+  [[2]]
+  [1] "character"
+
+  [[3]]
+  [1] "list"
+  [1] "numeric"
+  [1] "character"
+  [1] "list"
+  #+end_example
 
 * Code along: Creating (named) lists
 
@@ -39,26 +84,76 @@
 
 - Let's define a list ~foo~ and print it:
   #+begin_src R
-
+    foo <- list(
+      matrix(data=1:4, nrow=2, ncol=2),
+      c(TRUE, FALSE, TRUE, TRUE),
+      "hello"
+    )
+    foo
   #+end_src
 
+  #+RESULTS:
+  #+begin_example
+  [[1]]
+       [,1] [,2]
+  [1,]    1    3
+  [2,]    2    4
 
-  #+begin_src R
+  [[2]]
+  [1]  TRUE FALSE  TRUE  TRUE
 
+  [[3]]
+  [1] "hello"
+  #+end_example
+
+
+#+begin_src R
+  seq(-4,4,length.out=20) -> num
+  matrix(c(F,T,T,T,F,T), nrow=3, byrow=FALSE) -> mat
+  c("don", "strings") -> char
+  list(num, mat, char) -> foo
+  foo
   #+end_src
+
+  #+RESULTS:
+  #+begin_example
+  [[1]]
+   [1] -4.0000000 -3.5789474 -3.1578947 -2.7368421 -2.3157895 -1.8947368 -1.4736842 -1.0526316
+   [9] -0.6315789 -0.2105263  0.2105263  0.6315789  1.0526316  1.4736842  1.8947368  2.3157895
+  [17]  2.7368421  3.1578947  3.5789474  4.0000000
+
+  [[2]]
+        [,1]  [,2]
+  [1,] FALSE  TRUE
+  [2,]  TRUE FALSE
+  [3,]  TRUE  TRUE
+
+  [[3]]
+  [1] "don"     "strings"
+  #+end_example
 
 - List elements are indexed with the ~[[~ operator. Within each element,
   the elements are indexed according to their data structure
 
 - What is the ~length~ of the list ~foo~?
   #+begin_src R
-
+  length(foo)
   #+end_src
+
+  #+RESULTS:
+  : [1] 3
 
 - What is the ~class~ of the list ~foo~ and of its elements?
   #+begin_src R
-    
+    class(foo[[1]])
+    for (i in foo) print(class(i))
   #+end_src
+
+  #+RESULTS:
+  : [1] "numeric"
+  : [1] "numeric"
+  : [1] "matrix" "array" 
+  : [1] "character"
 
 * Practice creating a ~list~
 
@@ -69,8 +164,29 @@ Create a list that contains, in this order
 3) a ~character~ vector with the two strings ~"don"~ and ~"quixote"~
 
 #+begin_src R
-
+  seq(-4,4,length.out=20) -> num
+  matrix(c(F,T,T,T,F,T,T,F,F), nrow=3, byrow=FALSE) -> mat
+  c("Don", "quixote") -> char
+  list("SEQ"=num, "Matrix"=mat, "Names"=char) -> foo
+  foo
 #+end_src
+
+#+RESULTS:
+#+begin_example
+$SEQ
+ [1] -4.0000000 -3.5789474 -3.1578947 -2.7368421 -2.3157895 -1.8947368 -1.4736842 -1.0526316
+ [9] -0.6315789 -0.2105263  0.2105263  0.6315789  1.0526316  1.4736842  1.8947368  2.3157895
+[17]  2.7368421  3.1578947  3.5789474  4.0000000
+
+$Matrix
+      [,1]  [,2]  [,3]
+[1,] FALSE  TRUE  TRUE
+[2,]  TRUE FALSE FALSE
+[3,]  TRUE  TRUE FALSE
+
+$Names
+[1] "Don"     "quixote"
+#+end_example
 
 * Code along: Subsetting lists
 
@@ -86,27 +202,73 @@ Create a list that contains, in this order
   4) Retrieve the 3rd member.
   5) What is the 2nd element of the 3rd member?
   #+begin_src R :noweb yes
-
+    foo[[1]]
+    foo[[1]][3]
+    foo[[2]][2:4]
+    foo[[3]]
+    foo[[3]][2]
   #+end_src
+
+  #+RESULTS:
+  :  [1] -4.0000000 -3.5789474 -3.1578947 -2.7368421 -2.3157895 -1.8947368 -1.4736842 -1.0526316
+  :  [9] -0.6315789 -0.2105263  0.2105263  0.6315789  1.0526316  1.4736842  1.8947368  2.3157895
+  : [17]  2.7368421  3.1578947  3.5789474  4.0000000
+  : [1] -3.157895
+  : [1] TRUE TRUE TRUE
+  : [1] "Don"     "quixote"
+  : [1] "quixote"
 
 - Same for the matrix member of the list: use double indices
   1) retrieve the 2nd column of the 1st member of ~foo~
   2) retrieve the 2nd row, 1st column of the 1st member of ~foo~
   3) retrieve elements 1 through 4 of the 1st member of ~foo~
   #+begin_src R
-
+    foo[[2]][,2]
+    foo[[2]][2,1]
+    foo[[2]][1:4]
   #+end_src
+
+  #+RESULTS:
+  : [1]  TRUE FALSE  TRUE
+  : [1] TRUE
+  : [1] FALSE  TRUE  TRUE  TRUE
 
 - Using double square brackets on a list is always interpreted with
   respect to a single member, for example:
   #+begin_src R
-
+    foo[[c(2,3)]]
   #+end_src
+
+  #+RESULTS:
+  : [1] TRUE
 
 - Using the ~-~ operator inside the single index brackets to remove:
   #+begin_src R
-
+    foo[-1]
+    foo[[2]][-1]
+    foo[[2]][-1,]
+    foo[[2]][,-1]
   #+end_src
+
+  #+RESULTS:
+  #+begin_example
+  $Matrix
+        [,1]  [,2]  [,3]
+  [1,] FALSE  TRUE  TRUE
+  [2,]  TRUE FALSE FALSE
+  [3,]  TRUE  TRUE FALSE
+
+  $Names
+  [1] "Don"     "quixote"
+  [1]  TRUE  TRUE  TRUE FALSE  TRUE  TRUE FALSE FALSE
+       [,1]  [,2]  [,3]
+  [1,] TRUE FALSE FALSE
+  [2,] TRUE  TRUE FALSE
+        [,1]  [,2]
+  [1,]  TRUE  TRUE
+  [2,] FALSE FALSE
+  [3,]  TRUE FALSE
+  #+end_example
 
 - Preview: how would you extract the string member of ~foo~?
   #+begin_src R
@@ -137,8 +299,18 @@ Solve the following extraction problems:
 3) Extract the elements of the 1st member of ~foo~ with odd indices.
 
 #+begin_src R
-
+foo[[1]]
+foo[[1]][c(1, length(foo[[1]]))]
+foo[[1]][seq(1, length(foo[[1]]), by=2)]
 #+end_src
+
+#+RESULTS:
+:  [1] -4.0000000 -3.5789474 -3.1578947 -2.7368421 -2.3157895 -1.8947368 -1.4736842 -1.0526316
+:  [9] -0.6315789 -0.2105263  0.2105263  0.6315789  1.0526316  1.4736842  1.8947368  2.3157895
+: [17]  2.7368421  3.1578947  3.5789474  4.0000000
+: [1] -4  4
+:  [1] -4.0000000 -3.1578947 -2.3157895 -1.4736842 -0.6315789  0.2105263  1.0526316  1.8947368
+:  [9]  2.7368421  3.5789474
 
 * Code along: Removing, overwriting and slicing a ~list~
 
